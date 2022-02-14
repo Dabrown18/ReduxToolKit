@@ -1,22 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import NYTimesArticle from '../components/NYTimesArticle';
+import { fetchArticles } from '../redux/features/articles/articlesSlice';
 
 const Success = () => {
-  const [employees, setEmployees] = useState([]);
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [uri, setUri] = useState('');
+  const nytArticles = useSelector((state) => state.articles.data);
 
   useEffect(() => {
-    axios.get('https://api.nytimes.com/svc/topstories/v2/world.json?api-key=EWrmCqczT8LBAAVxuUxgP7mL8MbFVpkP')
-      .then(({ data }) => {
-        setEmployees(data.results);
-      });
-  }, []);
+    dispatch(fetchArticles());
+  }, [dispatch]);
 
   return (
     <NYTimesArticle
-      employees={employees}
+      employees={nytArticles}
       modalVisible={modalVisible}
       setModalVisible={setModalVisible}
       uri={uri}
