@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { fetchArticlesApi } from '../../../service';
 
-const FETCH_ARTICLES = 'FETCH_ARTICLES';
+const FETCH_ARTICLES = 'fetchArticles';
 export const fetchArticles = createAsyncThunk(
   FETCH_ARTICLES,
   async () => {
@@ -27,9 +27,9 @@ export const articlesSlice = createSlice({
     [fetchArticles.pending]: (state) => {
       state.isLoading = true;
     },
-    [fetchArticles.rejected]: (state, { payload }) => {
+    [fetchArticles.rejected]: (state, action) => {
       state.isLoading = false;
-      state.error = payload;
+      state.error = action.error.message;
     },
   },
 });
